@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
 import Product from "../components/Product";
-import Products from "../products";
+//import Products from "../products";
+
+import Axios from "axios";
 
 const Home = () => {
+  const [Products, setProducts] = useState([]);
+
+  // **  load products one time when comp is mounted
+  useEffect(() => {
+    const getProducts = async () => {
+      const { data } = await Axios.get("/api/products/");
+      console.log(data);
+      if (data.length) setProducts(data);
+    };
+    getProducts();
+  }, []);
+
   return (
     <>
       <h1 className="my-5">welcome to MATJAR!</h1>
