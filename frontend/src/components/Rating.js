@@ -1,7 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
+//import PropTypes from "prop-types";
 
 const Rating = ({ rating, numReviews, color }) => {
+  console.log("rating", rating);
   return (
     <>
       <span>
@@ -45,10 +46,10 @@ const Rating = ({ rating, numReviews, color }) => {
 Rating.defaultProps = { color: "#fca652" };
 
 //control props types using propTypes "impt" snippet
-Rating.propTypes = {
-  rating: PropTypes.number.isRequired,
-  numReviews: PropTypes.number.isRequired,
-  color: PropTypes.string
-};
+// Rating.propTypes = {
+//   rating: PropTypes.number.isRequired,
+//   numReviews: PropTypes.number.isRequired,
+//   color: PropTypes.string
+// };
 
 export default Rating;
