@@ -18,10 +18,10 @@ const productSchema = mongoose.Schema(
     category: { type: String, required: true },
     description: { type: String, required: true },
     reviews: [reviewSchema],
-    rating: { type: number, required: true, default: 0 },
-    numReviews: { type: number, required: true, default: 0 },
-    price: { type: number, required: true, default: 0 },
-    inStock: { type: number, required: true, default: 0 }
+    rating: { type: Number, required: true, default: 0 },
+    numReviews: { type: Number, required: true, default: 0 },
+    price: { type: Number, required: true, default: 0 },
+    inStock: { type: Number, required: true, default: 0 }
   },
   { timestamps: true }
 );

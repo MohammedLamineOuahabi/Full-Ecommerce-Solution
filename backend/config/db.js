@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
-
+import colors from "colors";
 // connect to the database
 
 const connectDB = async () => {
   //build the connection string
   const DB = process.env.DB_STR.replace("<username>", process.env.DB_USER)
-    .replace("<username>", process.env.DB_NAME)
+    .replace("<dbname>", process.env.DB_NAME)
     .replace("<password>", process.env.DB_PASSWORD);
-  //console.log(DB);
+  console.log(DB);
 
   //connect to db
   try {
@@ -18,8 +18,8 @@ const connectDB = async () => {
     });
 
     console.log(`MongoDB connected : ${conn.connection.host}`.blue); //.blue colors package
-  } catch (err) {
-    console.error(`Error : ${err.message}`.trimEnd.bold);
+  } catch (error) {
+    console.error(`Error : ${error.message}`.red.bold);
     process.exit(1);
   }
 };
