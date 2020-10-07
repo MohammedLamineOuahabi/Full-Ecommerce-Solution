@@ -5,7 +5,7 @@ import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { logout } from "../redux/actions/userActions";
 const Header = () => {
   //get user info if possible
-  const { userInfo } = useSelector(state => state.userLogin);
+  const { userLoggedInfo } = useSelector(state => state.userLogin);
   //create a dispatch
   const dispatch = useDispatch();
   //handle logout
@@ -28,8 +28,8 @@ const Header = () => {
                   <i className="fas fa-shopping-cart"></i>Cart
                 </Nav.Link>
               </LinkContainer>
-              {userInfo ? (
-                <NavDropdown title={userInfo.username} id="username">
+              {userLoggedInfo ? (
+                <NavDropdown title={userLoggedInfo.username} id="username">
                   <LinkContainer to="/profile">
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>

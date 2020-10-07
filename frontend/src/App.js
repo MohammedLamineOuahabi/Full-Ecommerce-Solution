@@ -7,6 +7,7 @@ import Footer from "./components/Footer";
 
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
+import ProfilePage from "./pages/ProfilePage";
 import HomePage from "./pages/HomePage";
 import ProductPage from "./pages/ProductPage";
 import CartPage from "./pages/CartPage";
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" component={HomePage} exact />
           <Route path="/register" component={RegisterPage} />
           <Route path="/login" component={LoginPage} />
+          <Route path="/profile" component={ProfilePage} />
           <Route path="/products/:id" component={ProductPage} exact />
           <Route path="/cart/:id?" component={CartPage} />
         </Container>

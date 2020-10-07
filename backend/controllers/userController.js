@@ -58,7 +58,41 @@ export const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (user) {
-    res.status(200).json(user);
+    res.status(200).json({
+      _id: user._id,
+      username: user.username,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      token: generateToken(user._id)
+    });
+  } else {
+    console.log("user not found");
+    res.status(401);
+    throw Error("user not found");
+  }
+});
+// @desc Auth user & get token
+// @route GET /api/v1/users/profile
+// @access private
+export const updateUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    user.username = req.body.username || user.username;
+    user.email = req.body.email || user.email;
+
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+    const updatedUser = await user.save();
+
+    res.status(200).json({
+      _id: updatedUser._id,
+      username: updatedUser.username,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      token: generateToken(updatedUser._id)
+    });
   } else {
     console.log("user not found");
     res.status(401);
@@ -66,4 +100,4 @@ export const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export default { authUser, getUserProfile, addUser };
+export default { authUser, getUserProfile, updateUserProfile, addUser };

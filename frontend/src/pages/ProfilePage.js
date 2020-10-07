@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { register } from "../redux/actions/userActions.js";
+import { getUserProfile, updateUserProfile } from "../redux/actions/userActions.js";
 import FormContainer from "../components/FormContainer.js";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 
-const RegisterPage = ({ location, history }) => {
+const ProfilePage = ({ location, history }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,30 +16,41 @@ const RegisterPage = ({ location, history }) => {
 
   const dispatch = useDispatch();
 
-  const { loading, error, userRegisterInfo } = useSelector(state => state.userRegister);
+  const { userLoggedInfo } = useSelector(state => state.userLogin);
+  const { loading, error, userProfileInfo } = useSelector(state => state.userProfile);
+  const { success, userUpdatedInfo } = useSelector(state => state.userProfileUpdate);
+
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
   useEffect(() => {
-    if (userRegisterInfo) {
-      // if registering is success then redirect
-      history.push(redirect);
+    // if not login redirect user to login page
+    if (!userLoggedInfo) {
+      history.push("/login");
+    } else {
+      //if no profile info get profile
+      if (!userProfileInfo) {
+        dispatch(getUserProfile());
+      } else {
+        setUsername(userProfileInfo.username);
+        setEmail(userProfileInfo.email);
+      }
     }
-  }, [history, redirect, userRegisterInfo]);
+  }, [dispatch, history, userProfileInfo, userLoggedInfo]);
 
   const submitHandler = e => {
     e.preventDefault();
-    console.log(username, email, password);
     //check if password & confirmPassword are identical
     if (password !== confirmPassword) {
       SetMessage("Please verify your passwords");
     } else {
-      dispatch(register(username, email, password));
+      dispatch(updateUserProfile({ username, email, password }));
     }
   };
   return (
     <FormContainer>
-      <h1>Sign UP</h1>
+      <h1>Profile </h1>
       {error && <Message variant="danger">{error}</Message>}
+      {success && <Message variant="success">Profile updated Successfully</Message>}
       {message && <Message variant="danger">{message}</Message>}
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>
@@ -80,16 +91,10 @@ const RegisterPage = ({ location, history }) => {
           ></Form.Control>
         </Form.Group>
         <Button type="submit" variant="primary">
-          Register
+          Update
         </Button>
-        <Row className="py-3">
-          <Col>
-            Already registered, please Sign in
-            <Link to="/login">{` here . `}</Link>
-          </Col>
-        </Row>
       </Form>
     </FormContainer>
   );
 };
-export default RegisterPage;
+export default ProfilePage;

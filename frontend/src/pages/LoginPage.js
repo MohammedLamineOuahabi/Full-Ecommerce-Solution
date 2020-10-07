@@ -11,15 +11,15 @@ const LoginPage = ({ location, history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const { loading, error, userInfo } = useSelector(state => state.userLogin);
+  const { loading, error, userLoggedInfo } = useSelector(state => state.userLogin);
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
   useEffect(() => {
-    if (userInfo) {
+    if (userLoggedInfo) {
       // if login success the redirect
       history.push(redirect);
     }
-  }, [history, redirect, userInfo]);
+  }, [history, redirect, userLoggedInfo]);
 
   const submitHandler = e => {
     e.preventDefault();
