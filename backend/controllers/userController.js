@@ -5,7 +5,7 @@ import generateToken from "../utils/generateToken.js";
 // @desc Auth user & get token
 // @route POST /api/v1/login
 // @access public
-export const authUser = asyncHandler(async (req, res) => {
+const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (user && (await user.matchPassword(password))) {
@@ -25,7 +25,7 @@ export const authUser = asyncHandler(async (req, res) => {
 // @desc add user & get token
 // @route POST /api/v1/users/
 // @access public
-export const addUser = asyncHandler(async (req, res) => {
+const addUser = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
 
   //check if user exists
@@ -54,7 +54,7 @@ export const addUser = asyncHandler(async (req, res) => {
 // @desc Auth user & get token
 // @route GET /api/v1/users/profile
 // @access private
-export const getUserProfile = asyncHandler(async (req, res) => {
+const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (user) {
@@ -74,7 +74,7 @@ export const getUserProfile = asyncHandler(async (req, res) => {
 // @desc Auth user & get token
 // @route GET /api/v1/users/profile
 // @access private
-export const updateUserProfile = asyncHandler(async (req, res) => {
+const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (user) {

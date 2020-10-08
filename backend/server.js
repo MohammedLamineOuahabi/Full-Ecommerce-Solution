@@ -5,6 +5,7 @@ import connectDB from "./config/db.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import productRoutes from "./route/productRoutes.js";
 import userRoutes from "./route/userRoutes.js";
+import orderRoutes from "./route/orderRoutes.js";
 
 const app = express();
 dotenv.config();
@@ -21,6 +22,7 @@ app.use(express.json());
 // *******   ROUTES   ************************
 app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/orders", orderRoutes);
 
 app.get("/api/", (req, res) => {
   res.send("API is running ..");
