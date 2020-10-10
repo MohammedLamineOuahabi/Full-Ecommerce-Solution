@@ -18,18 +18,19 @@ const orderSchema = mongoose.Schema(
       }
     ],
     shippingAddress: {
-      address: { type: String, required: true, unique: true },
-      city: { type: String, required: true, unique: true },
-      postalCode: { type: String, required: true, unique: true },
-      country: { type: String, required: true, unique: true }
+      address: { type: String, required: true },
+      city: { type: String, required: true },
+      postalCode: { type: String, required: true },
+      country: { type: String, required: true }
     },
-    paymentMethod: { type: String, required: true, unique: true },
+    paymentMethod: { type: String, required: true },
     paymentResult: {
       id: { type: String },
       status: { type: String },
       update_time: { type: String },
       email_Address: { type: String }
     },
+    itemsPrice: { type: String, required: true, default: 0.0 },
     taxPrice: { type: String, required: true, default: 0.0 },
     shippingPrice: { type: String, required: true, default: 0.0 },
     totalPrice: { type: String, required: true, default: 0.0 },
