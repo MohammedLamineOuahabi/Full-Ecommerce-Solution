@@ -24,6 +24,10 @@ app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/orders", orderRoutes);
 
+app.get("/api/v1/config/paypal", (req, res) => {
+  res.send(process.env.PAYPAL_CLIENT_ID);
+});
+
 app.get("/api/", (req, res) => {
   res.send("API is running ..");
 });

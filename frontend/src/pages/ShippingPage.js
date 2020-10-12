@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import Loader from "../components/Loader";
-import Message from "../components/Message";
+
 import { saveShippingAddress } from "../redux/actions/cartActions.js";
 import FormContainer from "../components/FormContainer.js";
 import CheckoutSteps from "../components/CheckoutSteps.js";
-import { Form, Button, Row, Col } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 
 const ShippingPage = ({ history }) => {
   const dispatch = useDispatch();

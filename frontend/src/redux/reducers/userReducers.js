@@ -37,6 +37,8 @@ const userProfileReducer = (state = {}, action) => {
       return { loading: false, userProfileInfo: action.payload };
     case userActionTypes.USER_DETAILS_FAILED:
       return { loading: false, error: action.payload };
+    case userActionTypes.USER_DETAILS_RESET:
+      return { userProfileInfo: {} };
     default:
       return state;
   }

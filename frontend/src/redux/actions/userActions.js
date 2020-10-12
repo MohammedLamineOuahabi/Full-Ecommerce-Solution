@@ -92,7 +92,7 @@ const updateUserProfile = user => async (dispatch, getState) => {
 const logout = () => dispatch => {
   localStorage.removeItem("userLoggedInfo");
   dispatch({ type: userActionTypes.USER_LOGIN_LOGOUT });
-  // dispatch({ type: USER_DETAILS_RESET })
-  // dispatch({ type: ORDER_LIST_MY_RESET })
+  dispatch({ type: userActionTypes.USER_DETAILS_RESET });
+  dispatch({ type: userActionTypes.ORDER_LIST_RESET });
 };
 export { login, logout, register, getUserProfile, updateUserProfile };
