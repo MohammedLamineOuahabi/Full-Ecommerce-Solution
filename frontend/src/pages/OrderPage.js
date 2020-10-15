@@ -3,11 +3,11 @@ import Axios from "axios";
 import { PayPalButton } from "react-paypal-button-v2";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Row, Col, ListGroup, Image } from "react-bootstrap";
+import { Row, Col, ListGroup, Image, Button } from "react-bootstrap";
 
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { getOrder, payOrder } from "../redux/actions/orderActions";
+import { getOrder, payOrder, deliverOrder } from "../redux/actions/orderActions";
 import orderActionTypes from "../redux/constants/orderActionTypes";
 
 const OrderPage = ({ match }) => {
@@ -18,6 +18,7 @@ const OrderPage = ({ match }) => {
   const { order, loading, error } = useSelector(state => state.orderDetails);
   ///get order pay from state  :rename loading to loadingPay
   const { loading: loadingPay, success: successPay } = useSelector(state => state.orderPay);
+  const { success: successDeliver } = useSelector(state => state.orderDeliverState);
   //create dispatch function
   const dispatch = useDispatch();
 
@@ -41,12 +42,16 @@ const OrderPage = ({ match }) => {
   }, []);
 
   useEffect(() => {
-    if (!order || successPay) {
+    if (!order || successPay || successDeliver) {
       dispatch({ type: orderActionTypes.ORDER_PAY_RESET });
+      dispatch({ type: orderActionTypes.ORDER_DELIVERED_RESET });
       dispatch(getOrder(orderId));
     }
-  }, [dispatch, orderId, successPay, order]);
+  }, [dispatch, orderId, successPay, order, successDeliver]);
 
+  const setDeliveredHandler = () => {
+    dispatch(deliverOrder(orderId));
+  };
   const successPaymentHandler = (details, data) => {
     console.log("details :", details);
     console.log("data :", data);
@@ -74,10 +79,15 @@ const OrderPage = ({ match }) => {
                 {order.shippingAddress.address},{order.shippingAddress.city},
                 {order.shippingAddress.postalCode},{order.shippingAddress.country}.
               </p>
-              {order.isDelivered ? (
+              {order.deliveredAt ? (
                 <Message variant="success">Delivered on {order.deliveredAt}.</Message>
               ) : (
-                <Message variant="danger">Not Delivered.</Message>
+                <>
+                  <Message variant="danger">Not Delivered.</Message>
+                  <Button type="button" className="btn btn-block" onClick={setDeliveredHandler}>
+                    Mark as delivered
+                  </Button>
+                </>
               )}
             </ListGroup.Item>
             <ListGroup.Item>
@@ -106,7 +116,7 @@ const OrderPage = ({ match }) => {
                           <Image src={item.image} alt={item.name} fluid rounded></Image>
                         </Col>
                         <Col>
-                          <Link to={`/products/${item.id}`}>{item.name}</Link>
+                          <Link to={`/products/${item._id}`}>{item.name}</Link>
                         </Col>
                         <Col md={4}>
                           {`${item.qty} x  ${item.price} = $${item.qty * item.price}`}

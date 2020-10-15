@@ -15,6 +15,11 @@ import ShippingPage from "./pages/ShippingPage";
 import PaymentPage from "./pages/PaymentPage";
 import PlaceOrderPage from "./pages/PlaceOrderPage";
 import OrderPage from "./pages/OrderPage";
+import AdminUsersPage from "./pages/AdminUsersPage";
+import AdminUserEditPage from "./pages/AdminUserEditPage";
+import AdminProductEditPage from "./pages/AdminProductEditPage";
+import AdminProductsPage from "./pages/AdminProductsPage";
+import AdminOrdersPage from "./pages/AdminOrdersPage";
 
 function App() {
   return (
@@ -23,15 +28,27 @@ function App() {
       <main className="py-3">
         <Container>
           <Route path="/" component={HomePage} exact />
+          <Route path="/search/:keyword" component={HomePage} exact />
+          <Route path="/search/:keyword/page/:page" component={HomePage} exact />
+          <Route path="/page/:page" component={HomePage} exact />
           <Route path="/register" component={RegisterPage} />
           <Route path="/login" component={LoginPage} />
           <Route path="/profile" component={ProfilePage} />
-          <Route path="/products/:id" component={ProductPage} exact />
-          <Route path="/cart/:id?" component={CartPage} />
           <Route path="/shipping" component={ShippingPage} />
           <Route path="/payment" component={PaymentPage} />
           <Route path="/placeorder" component={PlaceOrderPage} />
+
+          <Route path="/products/:id" component={ProductPage} exact />
+          <Route path="/cart/:id?" component={CartPage} />
           <Route path="/orders/:id" component={OrderPage} />
+
+          <Route path="/admin/users" component={AdminUsersPage} exact />
+          <Route path="/admin/products" component={AdminProductsPage} exact />
+          <Route path="/admin/products/:page" component={AdminProductsPage} exact />
+          <Route path="/admin/orders" component={AdminOrdersPage} exact />
+
+          <Route path="/admin/users/:id/edit" component={AdminUserEditPage} exact />
+          <Route path="/admin/products/:id/edit" component={AdminProductEditPage} exact />
         </Container>
       </main>
       <Footer />

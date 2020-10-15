@@ -8,3 +8,6 @@ code {
 .card-title {
   height: 40px;
 }
+.carousel a {
+  margin: 0 auto;
+}

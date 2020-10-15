@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 //import { Link } from "react-router-dom";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { getUserProfile, updateUserProfile } from "../redux/actions/userActions.js";
+import { getUser, updateUser } from "../redux/actions/userActions.js";
 import { myOrders } from "../redux/actions/orderActions.js";
 import FormContainer from "../components/FormContainer.js";
 import { Form, Button, Row, Col, Table } from "react-bootstrap";
@@ -19,8 +19,8 @@ const ProfilePage = ({ location, history }) => {
   const dispatch = useDispatch();
 
   const { userLoggedInfo } = useSelector(state => state.userLogin);
-  const { loading, error, userProfileInfo } = useSelector(state => state.userProfile);
-  const { success } = useSelector(state => state.userProfileUpdate);
+  const { loading, error, userProfileInfo } = useSelector(state => state.userProfileState);
+  const { success } = useSelector(state => state.userUpdateState);
   const { loadingMyOrders, errorMyOrders, orders } = useSelector(state => state.orderMyOrders);
 
   //const redirect = location.search ? location.search.split("=")[1] : "/";
@@ -36,7 +36,7 @@ const ProfilePage = ({ location, history }) => {
       //if no profile info get profile
       if (!userProfileInfo) {
         console.log("in useEffect !userProfileInfo");
-        dispatch(getUserProfile());
+        dispatch(getUser());
         dispatch(myOrders());
       } else {
         setUsername(userProfileInfo.username);
@@ -51,7 +51,7 @@ const ProfilePage = ({ location, history }) => {
     if (password !== confirmPassword) {
       SetMessage("Please verify your passwords");
     } else {
-      dispatch(updateUserProfile({ username, email, password }));
+      dispatch(updateUser({ username, email, password }));
     }
   };
   return (

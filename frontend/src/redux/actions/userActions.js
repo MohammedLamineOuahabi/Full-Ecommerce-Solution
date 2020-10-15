@@ -1,5 +1,6 @@
 import Axios from "axios";
 import userActionTypes from "../constants/userActionTypes";
+import orderActionTypes from "../constants/orderActionTypes";
 
 const login = (email, password) => async dispatch => {
   try {
@@ -37,7 +38,7 @@ const register = (username, email, password) => async dispatch => {
   }
 };
 
-const getUserProfile = () => async (dispatch, getState) => {
+const getUser = id => async (dispatch, getState) => {
   try {
     dispatch({ type: userActionTypes.USER_DETAILS_REQUEST });
 
@@ -51,7 +52,7 @@ const getUserProfile = () => async (dispatch, getState) => {
       }
     };
 
-    const { data } = await Axios.get("/api/v1/users/profile", config);
+    const { data } = await Axios.get(`/api/v1/users/${id}`, config);
 
     dispatch({ type: userActionTypes.USER_DETAILS_SUCCESS, payload: data });
   } catch (error) {
@@ -63,7 +64,7 @@ const getUserProfile = () => async (dispatch, getState) => {
   }
 };
 
-const updateUserProfile = user => async (dispatch, getState) => {
+const updateUser = user => async (dispatch, getState) => {
   try {
     dispatch({ type: userActionTypes.USER_UPDATE_REQUEST });
 
@@ -78,7 +79,7 @@ const updateUserProfile = user => async (dispatch, getState) => {
       }
     };
 
-    const { data } = await Axios.put("/api/v1/users/profile", user, config);
+    const { data } = await Axios.put(`/api/v1/users/${user._id}`, user, config);
 
     dispatch({ type: userActionTypes.USER_UPDATE_SUCCESS, payload: data });
   } catch (error) {
@@ -89,10 +90,62 @@ const updateUserProfile = user => async (dispatch, getState) => {
     });
   }
 };
+
+const getUsers = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: userActionTypes.USER_LIST_REQUEST });
+
+    const {
+      userLogin: { userLoggedInfo }
+    } = getState();
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userLoggedInfo.token}`
+      }
+    };
+
+    const { data } = await Axios.get("/api/v1/users/", config);
+
+    dispatch({ type: userActionTypes.USER_LIST_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: userActionTypes.USER_LIST_FAILED,
+      payload:
+        error.response && error.response.data.message ? error.response.data.message : error.message
+    });
+  }
+};
+const deleteUser = id => async (dispatch, getState) => {
+  try {
+    dispatch({ type: userActionTypes.USER_DELETE_REQUEST });
+
+    const {
+      userLogin: { userLoggedInfo }
+    } = getState();
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userLoggedInfo.token}`
+      }
+    };
+
+    await Axios.delete(`/api/v1/users/${id}`, config);
+
+    dispatch({ type: userActionTypes.USER_DELETE_SUCCESS });
+  } catch (error) {
+    dispatch({
+      type: userActionTypes.USER_DELETE_FAILED,
+      payload:
+        error.response && error.response.data.message ? error.response.data.message : error.message
+    });
+  }
+};
 const logout = () => dispatch => {
   localStorage.removeItem("userLoggedInfo");
   dispatch({ type: userActionTypes.USER_LOGIN_LOGOUT });
   dispatch({ type: userActionTypes.USER_DETAILS_RESET });
-  dispatch({ type: userActionTypes.ORDER_LIST_RESET });
+  dispatch({ type: userActionTypes.USER_LIST_RESET });
+  dispatch({ type: orderActionTypes.ORDER_LIST_RESET });
 };
-export { login, logout, register, getUserProfile, updateUserProfile };
+export { login, logout, register, getUser, updateUser, getUsers, deleteUser };

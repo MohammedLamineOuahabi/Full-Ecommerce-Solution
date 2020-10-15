@@ -1,8 +1,10 @@
 import React from "react";
+import { Route } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { logout } from "../redux/actions/userActions";
+import SearchBox from "./SearchBox";
 const Header = () => {
   //get user info if possible
   const { userLoggedInfo } = useSelector(state => state.userLogin);
@@ -22,6 +24,7 @@ const Header = () => {
 
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
+            <Route render={({ history }) => <SearchBox history={history} />} />
             <Nav className="ml-auto ">
               <LinkContainer to="/cart">
                 <Nav.Link>
@@ -48,6 +51,21 @@ const Header = () => {
                     </Nav.Link>
                   </LinkContainer>
                 </>
+              )}
+              {userLoggedInfo && userLoggedInfo.isAdmin && (
+                <NavDropdown title="Admin Panel" id="admin">
+                  <LinkContainer to="/admin/users">
+                    <NavDropdown.Item>Users </NavDropdown.Item>
+                  </LinkContainer>
+
+                  <LinkContainer to="/admin/products">
+                    <NavDropdown.Item>Products </NavDropdown.Item>
+                  </LinkContainer>
+
+                  <LinkContainer to="/admin/orders">
+                    <NavDropdown.Item>Orders </NavDropdown.Item>
+                  </LinkContainer>
+                </NavDropdown>
               )}
             </Nav>
           </Navbar.Collapse>

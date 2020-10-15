@@ -2,33 +2,53 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-import { productListReducer, productDetailsReducer } from "./reducers/productReducers.js";
+import {
+  productListReducer,
+  productDetailsReducer,
+  productDeleteReducer,
+  productCreateReducer,
+  productUpdateReducer,
+  productReviewReducer,
+  productTopReducer
+} from "./reducers/productReducers.js";
+
 import { cartReducer } from "./reducers/cartReducers.js";
 import {
   userLoginReducer,
   userRegisterReducer,
   userProfileReducer,
-  userUpdateReducer
+  userUpdateReducer,
+  userListReducer,
+  userDeleteReducer
 } from "./reducers/userReducers.js";
 import {
   orderCreateReducer,
   orderDetailsReducer,
   orderPayReducer,
-  orderListReducer
+  orderListReducer,
+  orderDeliverReducer
 } from "./reducers/orderReducers.js";
 ///
 const reducer = combineReducers({
-  productList: productListReducer,
-  productDetails: productDetailsReducer,
+  productListState: productListReducer,
+  productDetailsState: productDetailsReducer,
   cart: cartReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,
-  userProfile: userProfileReducer,
-  userProfileUpdate: userUpdateReducer,
+  userProfileState: userProfileReducer,
+  userUpdateState: userUpdateReducer,
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
-  orderMyOrders: orderListReducer
+  orderDeliverState: orderDeliverReducer,
+  orderListState: orderListReducer,
+  usersListState: userListReducer,
+  userDeleteState: userDeleteReducer,
+  productDeleteState: productDeleteReducer,
+  productCreateState: productCreateReducer,
+  productUpdateState: productUpdateReducer,
+  productReviewState: productReviewReducer,
+  productTopState: productTopReducer
 });
 
 //get cartItem from localStorage

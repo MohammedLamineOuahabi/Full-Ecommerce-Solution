@@ -6,15 +6,23 @@ import Product from "../components/Product.js";
 
 import Loader from "../components/Loader.js";
 import Message from "../components/Message.js";
+import Paginate from "../components/Paginate.js";
+import ProductsCarousel from "../components/ProductsCarousel.js";
 
-const HomePage = () => {
+const HomePage = ({ match }) => {
   const dispatch = useDispatch();
-  const { loading, error, products } = useSelector(state => state.productList);
+  const { loading, error, products, pages, page } = useSelector(state => state.productListState);
 
+  //get the keyword
+  const keyword = match.params.keyword;
+  //get the page number
+  const pageNumber = match.params.page || 1;
+
+  console.log("match.params.keyword :", match.params.keyword, pageNumber);
   // **  load products one time
   useEffect(() => {
-    dispatch(listProducts());
-  }, [dispatch]);
+    dispatch(listProducts(keyword, pageNumber));
+  }, [dispatch, keyword, pageNumber]);
 
   return (
     <>
@@ -25,6 +33,7 @@ const HomePage = () => {
         <Message variant="danger">{error}</Message>
       ) : (
         <>
+          {!keyword && <ProductsCarousel />}
           <h2 className="my-5">Latest products</h2>
           <Row className="text-left py-3 ">
             {products.map(product => (
@@ -33,6 +42,7 @@ const HomePage = () => {
               </Col>
             ))}
           </Row>
+          <Paginate keyword={keyword ? keyword : ""} page={page} pages={pages}></Paginate>
         </>
       )}
     </>
