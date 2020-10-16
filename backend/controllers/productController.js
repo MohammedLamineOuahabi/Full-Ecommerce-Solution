@@ -149,7 +149,6 @@ const createReview = asyncHandler(async (req, res) => {
 const getTopProducts = asyncHandler(async (req, res) => {
   console.log("in getTopProducts");
   const products = await Product.find({}).sort({ rating: -1 }).limit(3); ///
-  console.log(products);
 
   if (products) {
     res.status(201).json(products);
