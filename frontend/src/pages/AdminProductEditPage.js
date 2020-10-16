@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Axios from "axios";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
-import { listProductDetails, updateProduct } from "../redux/actions/productActions.js";
+import { productDetails, updateProduct } from "../redux/actions/productActions.js";
 import productActionTypes from "../redux/constants/productActionTypes";
 import FormContainer from "../components/FormContainer.js";
 import { Form, Button } from "react-bootstrap";
@@ -23,35 +23,31 @@ const ProductEditPage = ({ history, match }) => {
   const [uploading, setUploading] = useState(false);
 
   //get states
-  const theProductDetails = useSelector(state => state.productDetailsState);
-  const theProductUpdate = useSelector(state => state.productUpdateState);
+  const _productDetails = useSelector(state => state.productDetailsState);
+  const _productUpdate = useSelector(state => state.productUpdateState);
   //deconstruct
-  const {
-    loading: loadingDetails,
-    error: errorDetails,
-    product: productDetails
-  } = theProductDetails;
-  const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = theProductUpdate;
+  const { loading: loadingDetails, error: errorDetails, product } = _productDetails;
+  const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = _productUpdate;
 
   useEffect(() => {
     //if no product details then list product details
     if (!productDetails) {
-      dispatch(listProductDetails(productId));
-    } else if (productDetails && productDetails._id !== productId) {
-      dispatch(listProductDetails(productId));
+      dispatch(productDetails(productId));
+    } else if (product && product._id !== productId) {
+      dispatch(productDetails(productId));
     } else if (successUpdate) {
-      dispatch(listProductDetails(productId));
+      dispatch(productDetails(productId));
       dispatch({ type: productActionTypes.PRODUCT_UPDATE_RESET });
     } else {
-      setName(productDetails.name);
-      setPrice(productDetails.price);
-      setImage(productDetails.image);
-      setBrand(productDetails.brand);
-      setCategory(productDetails.category);
-      setInStock(productDetails.inStock);
-      setDescription(productDetails.description);
+      setName(product.name);
+      setPrice(product.price);
+      setImage(product.image);
+      setBrand(product.brand);
+      setCategory(product.category);
+      setInStock(product.inStock);
+      setDescription(product.description);
     }
-  }, [dispatch, productId, productDetails, successUpdate, history]);
+  }, [dispatch, productId, product, successUpdate, history]);
 
   const uploadFileHandler = async e => {
     const file = e.target.files[0];

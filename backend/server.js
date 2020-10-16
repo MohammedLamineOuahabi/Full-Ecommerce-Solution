@@ -14,6 +14,22 @@ const app = express();
 dotenv.config();
 connectDB();
 
+// ******* MIDDLEWARE ************************
+
+app.use(express.json());
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+  app.get("/", (req, res) => {
+    res.send("Api is running ...");
+  });
+}
+// ******* static files *********************
+//__dirname not supported by es module
+//const __dirname = path.resolve();
+const p = path.join(__dirname, "../uploads");
+//console.log(p);
+app.use("/uploads", express.static(p));
+
 // *******   ROUTES   ************************
 app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/users", userRoutes);
@@ -23,19 +39,8 @@ app.use("/api/v1/upload", uploadRoutes);
 app.get("/api/v1/config/paypal", (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID);
 });
-// ******* MIDDLEWARE ************************
-app.use(express.json());
 
-//__dirname not supported by es module
-//const __dirname = path.resolve();
-app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
-
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
-  app.get("/", (req, res) => {
-    res.send("Api is running ...");
-  });
-} else if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production") {
   //set build folder as static folder
   app.use(express.static(path.join(__dirname, "../frontend/build")));
   //redirect all not api routes to index.html

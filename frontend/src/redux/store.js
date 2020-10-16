@@ -30,33 +30,36 @@ import {
 } from "./reducers/orderReducers.js";
 ///
 const reducer = combineReducers({
-  productListState: productListReducer,
-  productDetailsState: productDetailsReducer,
-  cart: cartReducer,
-  userLogin: userLoginReducer,
-  userRegister: userRegisterReducer,
+  userLoginState: userLoginReducer,
+  userRegisterState: userRegisterReducer,
   userProfileState: userProfileReducer,
   userUpdateState: userUpdateReducer,
-  orderCreate: orderCreateReducer,
-  orderDetails: orderDetailsReducer,
-  orderPay: orderPayReducer,
-  orderDeliverState: orderDeliverReducer,
-  orderListState: orderListReducer,
   usersListState: userListReducer,
   userDeleteState: userDeleteReducer,
+
+  productListState: productListReducer,
+  productDetailsState: productDetailsReducer,
   productDeleteState: productDeleteReducer,
   productCreateState: productCreateReducer,
   productUpdateState: productUpdateReducer,
   productReviewState: productReviewReducer,
-  productTopState: productTopReducer
+  productTopState: productTopReducer,
+
+  cartState: cartReducer,
+
+  orderCreateState: orderCreateReducer,
+  orderDetailsState: orderDetailsReducer,
+  orderPayState: orderPayReducer,
+  orderDeliverState: orderDeliverReducer,
+  orderListState: orderListReducer
 });
 
 //get cartItem from localStorage
 const cartItemsFromLocalStorage = localStorage.getItem("cartItems")
   ? JSON.parse(localStorage.getItem("cartItems"))
   : [];
-const userInfoFromLocalStorage = localStorage.getItem("userLoggedInfo")
-  ? JSON.parse(localStorage.getItem("userLoggedInfo"))
+const userInfoFromLocalStorage = localStorage.getItem("userLoginInfo")
+  ? JSON.parse(localStorage.getItem("userLoginInfo"))
   : null;
 const shippingAddressFromLocalStorage = localStorage.getItem("shippingAddress")
   ? JSON.parse(localStorage.getItem("shippingAddress"))
@@ -67,12 +70,12 @@ const paymentMethodFromLocalStorage = localStorage.getItem("paymentMethod")
   : null;
 
 const initialState = {
-  cart: {
+  cartState: {
     cartItems: cartItemsFromLocalStorage,
     shippingAddress: shippingAddressFromLocalStorage,
     paymentMethod: paymentMethodFromLocalStorage
   },
-  userLogin: { userLoggedInfo: userInfoFromLocalStorage }
+  userLoginState: { userLoginInfo: userInfoFromLocalStorage }
 };
 
 const middleware = [thunk];

@@ -16,19 +16,21 @@ const RegisterPage = ({ location, history }) => {
 
   const dispatch = useDispatch();
 
-  const { loading, error, userRegisterInfo } = useSelector(state => state.userRegister);
-  const redirect = location.search ? location.search.split("=")[1] : "/";
+  const _userRegister = useSelector(state => state.userRegisterState);
+  const { loading, error, user } = _userRegister;
+
+  const redirect = "/"; //location.search ? location.search.split("=")[1] : "/";
 
   useEffect(() => {
-    if (userRegisterInfo) {
+    if (user && user._id) {
       // if registering is success then redirect
       history.push(redirect);
     }
-  }, [history, redirect, userRegisterInfo]);
+  }, [history, redirect, user]);
 
   const submitHandler = e => {
     e.preventDefault();
-    console.log(username, email, password);
+
     //check if password & confirmPassword are identical
     if (password !== confirmPassword) {
       SetMessage("Please verify your passwords");
@@ -44,7 +46,7 @@ const RegisterPage = ({ location, history }) => {
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="username">
-          <Form.Label>username address</Form.Label>
+          <Form.Label>username</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter a username"

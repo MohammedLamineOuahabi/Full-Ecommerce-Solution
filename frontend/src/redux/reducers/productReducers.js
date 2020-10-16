@@ -90,16 +90,16 @@ const productUpdateReducer = (state = { product: {} }, action) => {
 };
 const productReviewReducer = (state = { product: {} }, action) => {
   switch (action.type) {
-    case productActionTypes.PRODUCT_UPDATE_REQUEST:
+    case productActionTypes.PRODUCT_REVIEW_REQUEST:
       return { loading: true };
 
-    case productActionTypes.PRODUCT_UPDATE_SUCCESS:
-      return { loading: false, success: true, review: action.payload };
+    case productActionTypes.PRODUCT_REVIEW_SUCCESS:
+      return { loading: false, success: true };
 
-    case productActionTypes.PRODUCT_UPDATE_FAILED:
+    case productActionTypes.PRODUCT_REVIEW_FAILED:
       return { loading: false, error: action.payload };
 
-    case productActionTypes.PRODUCT_UPDATE_RESET:
+    case productActionTypes.PRODUCT_REVIEW_RESET:
       return {};
 
     default:

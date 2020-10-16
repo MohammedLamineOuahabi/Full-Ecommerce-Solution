@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-//import { Link } from "react-router-dom";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { getUser, updateUser } from "../redux/actions/userActions.js";
@@ -18,17 +17,19 @@ const ProfilePage = ({ location, history }) => {
 
   const dispatch = useDispatch();
 
-  const { userLoggedInfo } = useSelector(state => state.userLogin);
-  const { loading, error, userProfileInfo } = useSelector(state => state.userProfileState);
-  const { success } = useSelector(state => state.userUpdateState);
-  const { loadingMyOrders, errorMyOrders, orders } = useSelector(state => state.orderMyOrders);
-
-  //const redirect = location.search ? location.search.split("=")[1] : "/";
+  const _userLogin = useSelector(state => state.userLoginState);
+  const { userLoginInfo } = _userLogin;
+  const _userUpdate = useSelector(state => state.userUpdateState);
+  const { success } = _userUpdate;
+  const _userProfile = useSelector(state => state.userProfileState);
+  const { loading, error, userProfileInfo } = _userProfile;
+  const _myOrdersList = useSelector(state => state.orderMyOrdersState);
+  const { loadingMyOrders, errorMyOrders, orders } = _myOrdersList;
 
   useEffect(() => {
     console.log("in useEffect");
     // if not login redirect user to login page
-    if (!userLoggedInfo) {
+    if (!userLoginInfo) {
       history.push("/login");
     } else {
       console.log("in useEffect logged");
@@ -43,7 +44,7 @@ const ProfilePage = ({ location, history }) => {
         setEmail(userProfileInfo.email);
       }
     }
-  }, [dispatch, history, userProfileInfo, userLoggedInfo]);
+  }, [dispatch, history, userProfileInfo, userLoginInfo]);
 
   const submitHandler = e => {
     e.preventDefault();

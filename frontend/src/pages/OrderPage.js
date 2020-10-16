@@ -11,16 +11,12 @@ import { getOrder, payOrder, deliverOrder } from "../redux/actions/orderActions"
 import orderActionTypes from "../redux/constants/orderActionTypes";
 
 const OrderPage = ({ match }) => {
-  // get orderId from url  using match
+  const dispatch = useDispatch();
   const orderId = match.params.id;
 
-  //get order details from state
   const { order, loading, error } = useSelector(state => state.orderDetails);
-  ///get order pay from state  :rename loading to loadingPay
-  const { loading: loadingPay, success: successPay } = useSelector(state => state.orderPay);
+  const { loading: loadingPay, success: successPay } = useSelector(state => state.orderPayState);
   const { success: successDeliver } = useSelector(state => state.orderDeliverState);
-  //create dispatch function
-  const dispatch = useDispatch();
 
   const [sdkReady, setSdkReady] = useState(false);
 

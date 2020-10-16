@@ -7,12 +7,12 @@ const addOrder = order => async (dispatch, getState) => {
     dispatch({ type: orderActionTypes.ORDER_CREATE_REQUEST });
 
     const {
-      userLogin: { userLoggedInfo }
+      userLoginState: { userLoginInfo }
     } = getState();
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${userLoggedInfo.token}`
+        Authorization: `Bearer ${userLoginInfo.token}`
       }
     };
     console.log("order", order);
@@ -39,12 +39,12 @@ const getOrder = orderId => async (dispatch, getState) => {
     dispatch({ type: orderActionTypes.ORDER_DETAILS_REQUEST });
 
     const {
-      userLogin: { userLoggedInfo }
+      userLoginState: { userLoginInfo }
     } = getState();
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${userLoggedInfo.token}`
+        Authorization: `Bearer ${userLoginInfo.token}`
       }
     };
     //send data to the API
@@ -70,13 +70,13 @@ const payOrder = (orderId, paymentResult) => async (dispatch, getState) => {
     dispatch({ type: orderActionTypes.ORDER_PAY_REQUEST });
 
     const {
-      userLogin: { userLoggedInfo }
+      userLoginState: { userLoginInfo }
     } = getState();
 
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${userLoggedInfo.token}`
+        Authorization: `Bearer ${userLoginInfo.token}`
       }
     };
     //console.log("orderId", orderId);
@@ -103,13 +103,13 @@ const deliverOrder = orderId => async (dispatch, getState) => {
     dispatch({ type: orderActionTypes.ORDER_DELIVERED_REQUEST });
 
     const {
-      userLogin: { userLoggedInfo }
+      userLoginState: { userLoginInfo }
     } = getState();
 
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${userLoggedInfo.token}`
+        Authorization: `Bearer ${userLoginInfo.token}`
       }
     };
 
@@ -138,12 +138,12 @@ const myOrders = () => async (dispatch, getState) => {
     dispatch({ type: orderActionTypes.ORDER_LIST_REQUEST });
 
     const {
-      userLogin: { userLoggedInfo }
+      userLoginState: { userLoginInfo }
     } = getState();
 
     const config = {
       headers: {
-        Authorization: `Bearer ${userLoggedInfo.token}`
+        Authorization: `Bearer ${userLoginInfo.token}`
       }
     };
     //console.log("orderId", orderId);
@@ -172,12 +172,12 @@ const getOrders = () => async (dispatch, getState) => {
     dispatch({ type: orderActionTypes.ORDER_LIST_REQUEST });
 
     const {
-      userLogin: { userLoggedInfo }
+      userLoginState: { userLoginInfo }
     } = getState();
 
     const config = {
       headers: {
-        Authorization: `Bearer ${userLoggedInfo.token}`
+        Authorization: `Bearer ${userLoginInfo.token}`
       }
     };
     //console.log("orderId", orderId);

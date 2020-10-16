@@ -5,7 +5,7 @@ const userLoginReducer = (state = {}, action) => {
     case userActionTypes.USER_LOGIN_REQUEST:
       return { loading: true };
     case userActionTypes.USER_LOGIN_SUCCESS:
-      return { loading: false, userLoggedInfo: action.payload };
+      return { loading: false, userLoginInfo: action.payload };
     case userActionTypes.USER_LOGIN_FAILED:
       return { loading: false, error: action.payload };
     case userActionTypes.USER_LOGIN_LOGOUT:
@@ -16,12 +16,12 @@ const userLoginReducer = (state = {}, action) => {
   }
 };
 
-const userRegisterReducer = (state = {}, action) => {
+const userRegisterReducer = (state = { user: {} }, action) => {
   switch (action.type) {
     case userActionTypes.USER_REGISTER_REQUEST:
       return { loading: true };
     case userActionTypes.USER_REGISTER_SUCCESS:
-      return { loading: false, userRegisterInfo: action.payload };
+      return { loading: false, user: action.payload };
     case userActionTypes.USER_REGISTER_FAILED:
       return { loading: false, error: action.payload };
     default:

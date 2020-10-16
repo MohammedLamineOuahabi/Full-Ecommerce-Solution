@@ -9,7 +9,7 @@ const login = (email, password) => async dispatch => {
     const { data } = await Axios.post("/api/v1/users/login", { email, password }, config);
     dispatch({ type: userActionTypes.USER_LOGIN_SUCCESS, payload: data });
     //store user info to localStorage
-    localStorage.setItem("userLoggedInfo", JSON.stringify(data));
+    localStorage.setItem("userLoginInfo", JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: userActionTypes.USER_LOGIN_FAILED,
@@ -23,12 +23,14 @@ const register = (username, email, password) => async dispatch => {
   try {
     dispatch({ type: userActionTypes.USER_REGISTER_REQUEST });
     const config = { headers: { "Content-Type": "application/json" } };
+
     const { data } = await Axios.post("/api/v1/users/", { username, email, password }, config);
+
     dispatch({ type: userActionTypes.USER_REGISTER_SUCCESS, payload: data });
     //login the new user
     dispatch({ type: userActionTypes.USER_LOGIN_SUCCESS, payload: data });
     //store user info to localStorage
-    localStorage.setItem("userLoggedInfo", JSON.stringify(data));
+    localStorage.setItem("userLoginInfo", JSON.stringify(data));
   } catch (error) {
     dispatch({
       type: userActionTypes.USER_REGISTER_FAILED,
@@ -43,12 +45,12 @@ const getUser = id => async (dispatch, getState) => {
     dispatch({ type: userActionTypes.USER_DETAILS_REQUEST });
 
     const {
-      userLogin: { userLoggedInfo }
+      userLoginState: { userLoginInfo }
     } = getState();
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${userLoggedInfo.token}`
+        Authorization: `Bearer ${userLoginInfo.token}`
       }
     };
 
@@ -70,12 +72,12 @@ const updateUser = user => async (dispatch, getState) => {
 
     /// we get the user infos
     const {
-      userLogin: { userLoggedInfo }
+      userLoginState: { userLoginInfo }
     } = getState();
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${userLoggedInfo.token}`
+        Authorization: `Bearer ${userLoginInfo.token}`
       }
     };
 
@@ -96,12 +98,12 @@ const getUsers = () => async (dispatch, getState) => {
     dispatch({ type: userActionTypes.USER_LIST_REQUEST });
 
     const {
-      userLogin: { userLoggedInfo }
+      userLoginState: { userLoginInfo }
     } = getState();
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${userLoggedInfo.token}`
+        Authorization: `Bearer ${userLoginInfo.token}`
       }
     };
 
@@ -121,12 +123,12 @@ const deleteUser = id => async (dispatch, getState) => {
     dispatch({ type: userActionTypes.USER_DELETE_REQUEST });
 
     const {
-      userLogin: { userLoggedInfo }
+      userLoginState: { userLoginInfo }
     } = getState();
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${userLoggedInfo.token}`
+        Authorization: `Bearer ${userLoginInfo.token}`
       }
     };
 
@@ -142,7 +144,7 @@ const deleteUser = id => async (dispatch, getState) => {
   }
 };
 const logout = () => dispatch => {
-  localStorage.removeItem("userLoggedInfo");
+  localStorage.removeItem("userLoginInfo");
   dispatch({ type: userActionTypes.USER_LOGIN_LOGOUT });
   dispatch({ type: userActionTypes.USER_DETAILS_RESET });
   dispatch({ type: userActionTypes.USER_LIST_RESET });

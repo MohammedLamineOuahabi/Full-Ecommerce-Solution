@@ -7,6 +7,7 @@ import Message from "../components/Message.js";
 
 const CartPage = ({ match, location, history }) => {
   const dispatch = useDispatch();
+  const { cartItems } = useSelector(state => state.cartState);
 
   // Get id cart/5f77832abe6d511fd0750781?qty=3
   const productId = match.params.id;
@@ -20,9 +21,6 @@ const CartPage = ({ match, location, history }) => {
       dispatch(addToCart(productId, qty));
     }
   }, [dispatch, productId, qty]);
-
-  const { cartItems } = useSelector(state => state.cart);
-  console.log("cartItems", cartItems);
 
   const removeFromCartHandler = id => {
     dispatch(removeFromCart(id));

@@ -22,16 +22,17 @@ const AdminProductsPage = ({ history, match }) => {
     success: successCreate,
     product
   } = useSelector(state => state.productCreateState);
-  const { userLoggedInfo } = useSelector(state => state.userLogin);
+  const _userLogin = useSelector(state => state.userLoginState);
+  const { userLoginInfo } = _userLogin;
   //get the page number
   useEffect(() => {
     dispatch({ type: productActionTypes.PRODUCT_CREATE_RESET });
     //if not login redirect to login
-    if (!userLoggedInfo) {
+    if (!userLoginInfo) {
       history.push(`/login`);
     }
     //if  login but not Admin redirect to /
-    if (userLoggedInfo && !userLoggedInfo.isAdmin) {
+    if (userLoginInfo && !userLoginInfo.isAdmin) {
       history.push(`/`);
     }
     //if product created redirect to product edit page
@@ -40,7 +41,7 @@ const AdminProductsPage = ({ history, match }) => {
     } else {
       dispatch(listProducts("", pageNumber));
     }
-  }, [history, dispatch, userLoggedInfo, successDelete, successCreate, product, pageNumber]);
+  }, [history, dispatch, userLoginInfo, successDelete, successCreate, product, pageNumber]);
 
   const deleteProductHandler = id => {
     if (window.confirm("Are you sure !")) {
@@ -63,12 +64,11 @@ const AdminProductsPage = ({ history, match }) => {
           </Col>
         </Col>
       </Row>
-      {loadingDelete && <Loader />}
+
       {errorDelete && <Message variant="danger">{errorDelete}</Message>}
-      {loadingCreate && <Loader />}
       {errorCreate && <Message variant="danger">{errorCreate}</Message>}
 
-      {loading ? (
+      {loadingDelete || loadingCreate || loading ? (
         <Loader />
       ) : error ? (
         <Message variant="danger">{error}</Message>

@@ -7,9 +7,8 @@ import Loader from "../components/Loader";
 import Message from "../components/Message";
 const ProductsCarousel = () => {
   const dispatch = useDispatch();
-  const theProductsTopRated = useSelector(state => state.productTopState);
-
-  const { loading: loadingTop, error: errorTop, products } = theProductsTopRated;
+  const _productsTopRated = useSelector(state => state.productTopState);
+  const { loading: loadingTop, error: errorTop, products } = _productsTopRated;
 
   useEffect(() => {
     dispatch(getTopProducts());
@@ -24,7 +23,7 @@ const ProductsCarousel = () => {
       {products.map(product => (
         <Carousel.Item key={product._id}>
           <Link to={`/products/${product._id}`}>
-            <Image src={product.image} alt={product.name} fluid></Image>
+            <Image src={`/uploads/${product.image}`} alt={product.name} fluid></Image>
             <Carousel.Caption className="carousel-caption">
               <h2>
                 {product.name} ({product.price})

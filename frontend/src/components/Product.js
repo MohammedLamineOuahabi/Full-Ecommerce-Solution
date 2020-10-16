@@ -6,7 +6,7 @@ import Rating from "./Rating";
 const Product = ({ product }) => {
   return (
     <Card className="my-3  rounded">
-      <Card.Img variant="top" src={product.image} />
+      <Card.Img variant="top" src={`/uploads/${product.image}`} />
       <Card.Body>
         <Link to={`/products/${product._id}`}>
           <Card.Title as="div" className="X">

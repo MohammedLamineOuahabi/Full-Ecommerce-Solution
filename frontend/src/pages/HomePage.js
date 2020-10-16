@@ -11,14 +11,14 @@ import ProductsCarousel from "../components/ProductsCarousel.js";
 
 const HomePage = ({ match }) => {
   const dispatch = useDispatch();
-  const { loading, error, products, pages, page } = useSelector(state => state.productListState);
+  const _productList = useSelector(state => state.productListState);
+  const { loading, error, products, pages, page } = _productList;
 
   //get the keyword
-  const keyword = match.params.keyword;
+  const keyword = match.params.keyword || "";
   //get the page number
   const pageNumber = match.params.page || 1;
 
-  console.log("match.params.keyword :", match.params.keyword, pageNumber);
   // **  load products one time
   useEffect(() => {
     dispatch(listProducts(keyword, pageNumber));

@@ -9,19 +9,20 @@ import Message from "../components/Message";
 const UsersPage = ({ history }) => {
   const dispatch = useDispatch();
 
-  const { userLoggedInfo } = useSelector(state => state.userLogin);
-  const { success: successDeleteUser } = useSelector(state => state.userDeleteState);
-  const { loading: loadingUsersList, error: errorUsersList, users } = useSelector(
-    state => state.usersListState
-  );
+  const _userLogin = useSelector(state => state.userLoginState);
+  const { userLoginInfo } = _userLogin;
+  const _userDelete = useSelector(state => state.userDeleteState);
+  const { success: successDeleteUser } = _userDelete;
+  const _usersList = useSelector(state => state.usersListState);
+  const { loading: loadingUsersList, error: errorUsersList, users } = _usersList;
 
   useEffect(() => {
-    if (userLoggedInfo && userLoggedInfo.isAdmin) {
+    if (userLoginInfo && userLoginInfo.isAdmin) {
       dispatch(getUsers());
     } else {
       history.push(`/login`);
     }
-  }, [history, dispatch, successDeleteUser, userLoggedInfo]);
+  }, [history, dispatch, successDeleteUser, userLoginInfo]);
 
   const deleteHandler = id => {
     if (window.confirm("Are you sure !")) {

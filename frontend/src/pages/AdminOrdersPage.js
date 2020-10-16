@@ -9,33 +9,31 @@ import Message from "../components/Message";
 const AdminOrdersPage = ({ history }) => {
   const dispatch = useDispatch();
 
-  const { userLoggedInfo } = useSelector(state => state.userLogin);
+  const { userLoginInfo } = useSelector(state => state.userLoginState);
 
   //get states
-  const theOrdersList = useSelector(state => state.orderListState);
-  //const theOrderUpdate = useSelector(state => state.orderUpdateState);
-  //deconstruct
+  const _ordersList = useSelector(state => state.orderListState);
   const {
     loading: loadingOrders,
     success: successOrders,
     error: errorOrders,
     orders
-  } = theOrdersList;
+  } = _ordersList;
 
   useEffect(() => {
     //check if login
-    if (!userLoggedInfo) {
+    if (!userLoginInfo) {
       history.push("/login");
     }
     //check if admin
-    if (!userLoggedInfo.isAdmin) {
+    if (!userLoginInfo.isAdmin) {
       history.push("/");
     }
     //check if order listed
     if (!orders || orders.length === 0) {
       dispatch(getOrders());
     }
-  }, [history, dispatch, successOrders, orders, userLoggedInfo]);
+  }, [history, dispatch, successOrders, orders, userLoginInfo]);
 
   /*   const deleteHandler = id => {
     if (window.confirm("Are you sure !")) {

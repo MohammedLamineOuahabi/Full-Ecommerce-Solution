@@ -17,7 +17,7 @@ const listProducts = (keyword = "", page = "") => async dispatch => {
   }
 };
 
-const listProductDetails = id => async dispatch => {
+const productDetails = id => async dispatch => {
   try {
     dispatch({ type: productActionTypes.PRODUCT_DETAILS_REQUEST });
 
@@ -38,12 +38,12 @@ const deleteProduct = id => async (dispatch, getState) => {
     dispatch({ type: productActionTypes.PRODUCT_DELETE_REQUEST });
     /// we get the user infos
     const {
-      userLogin: { userLoggedInfo }
+      userLoginState: { userLoginInfo }
     } = getState();
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${userLoggedInfo.token}`
+        Authorization: `Bearer ${userLoginInfo.token}`
       }
     };
     await Axios.delete(`/api/v1/products/${id}`, config);
@@ -62,18 +62,18 @@ const createProduct = () => async (dispatch, getState) => {
     dispatch({ type: productActionTypes.PRODUCT_CREATE_REQUEST });
     /// we get the user infos
     const {
-      userLogin: { userLoggedInfo }
+      userLoginState: { userLoginInfo }
     } = getState();
 
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${userLoggedInfo.token}`
+        Authorization: `Bearer ${userLoginInfo.token}`
       }
     };
-    const data = await Axios.post(`/api/v1/products`, {}, config);
-    console.log(data.data);
-    dispatch({ type: productActionTypes.PRODUCT_CREATE_SUCCESS, payload: data.data }); ///
+    const { data } = await Axios.post(`/api/v1/products`, {}, config);
+
+    dispatch({ type: productActionTypes.PRODUCT_CREATE_SUCCESS, payload: data }); ///
   } catch (error) {
     dispatch({
       type: productActionTypes.PRODUCT_CREATE_FAILED,
@@ -89,12 +89,12 @@ const updateProduct = product => async (dispatch, getState) => {
 
     /// we get the user infos
     const {
-      userLogin: { userLoggedInfo }
+      userLoginState: { userLoginInfo }
     } = getState();
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${userLoggedInfo.token}`
+        Authorization: `Bearer ${userLoginInfo.token}`
       }
     };
 
@@ -115,12 +115,12 @@ const reviewProduct = (id, review) => async (dispatch, getState) => {
 
     /// we get the user infos
     const {
-      userLogin: { userLoggedInfo }
+      userLoginState: { userLoginInfo }
     } = getState();
     const config = {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${userLoggedInfo.token}`
+        Authorization: `Bearer ${userLoginInfo.token}`
       }
     };
 
@@ -153,7 +153,7 @@ const getTopProducts = () => async dispatch => {
 };
 export {
   listProducts,
-  listProductDetails,
+  productDetails,
   deleteProduct,
   createProduct,
   updateProduct,

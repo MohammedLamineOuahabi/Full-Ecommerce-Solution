@@ -58,7 +58,7 @@ const deleteProduct = asyncHandler(async (req, res) => {
 const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
     name: "Sample product",
-    image: "/images/sample.jpg",
+    image: "sample.jpg",
     brand: "Sample Brand",
     category: "Sample category",
     description: "Sample Description",
@@ -68,12 +68,7 @@ const createProduct = asyncHandler(async (req, res) => {
     user: req.user._id
   });
   const createdProduct = await product.save();
-  if (createdProduct) {
-    res.status(200).json(createdProduct);
-  } else {
-    res.status(404);
-    throw new Error("Product not created.");
-  }
+  res.status(201).json(createdProduct);
 });
 
 // @desc update single product

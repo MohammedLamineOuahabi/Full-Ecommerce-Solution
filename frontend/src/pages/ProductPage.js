@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Form, Image, ListGroup, Card, Button, ListGroupItem } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { listProductDetails, reviewProduct } from "../redux/actions/productActions.js";
+import { productDetails, reviewProduct } from "../redux/actions/productActions.js";
 import productActionTypes from "../redux/constants/productActionTypes.js";
 import Loader from "../components/Loader.js";
 import Message from "../components/Message.js";
@@ -16,18 +16,19 @@ const ProductPage = ({ history, match }) => {
   const [comment, setComment] = useState("");
 
   const { loading, error, product } = useSelector(state => state.productDetailsState);
-  const { userLoggedInfo } = useSelector(state => state.userLogin);
-  const { error: errorRating, success: successRating } = useSelector(
-    state => state.productReviewState
-  );
+  const { userLoginInfo } = useSelector(state => state.userLoginState);
+
+  const _productReview = useSelector(state => state.productReviewState);
+  const { error: errorRating, success: successRating } = _productReview;
   const productId = match.params.id;
+
   useEffect(() => {
+    dispatch(productDetails(productId));
     if (successRating) {
       setRating(0);
       setComment("");
       dispatch({ type: productActionTypes.PRODUCT_REVIEW_RESET });
     }
-    dispatch(listProductDetails(productId));
   }, [dispatch, match, successRating, productId]);
 
   const addToCartHandler = () => {
@@ -35,7 +36,15 @@ const ProductPage = ({ history, match }) => {
   };
   const submitHandler = e => {
     e.preventDefault();
-    dispatch(reviewProduct(productId, { rating, comment }));
+    if (rating !== 0) {
+      dispatch(reviewProduct(productId, { rating, comment }));
+    } else {
+      dispatch({
+        type: productActionTypes.PRODUCT_REVIEW_FAILED,
+        payload: "Please select a rating value"
+      });
+      /////go after a delay
+    }
   };
   return (
     <>
@@ -51,7 +60,7 @@ const ProductPage = ({ history, match }) => {
           <Row>
             <Col md={6}>
               {/* /// using fluid to force image to stay inside the container */}
-              <Image src={product.image} alt={product.name} fluid />
+              <Image src={`/uploads/${product.image}`} alt={product.name} fluid />
             </Col>
             <Col md={3}>
               <ListGroup variant="flush">
@@ -119,6 +128,7 @@ const ProductPage = ({ history, match }) => {
           <Row>
             <Col md={6}>
               <h2>reviews</h2>
+
               {product.reviews.length === 0 && <Message>no reviews</Message>}
               <ListGroup variant="flush">
                 {product.reviews.map(review => (
@@ -132,7 +142,7 @@ const ProductPage = ({ history, match }) => {
                 <ListGroup.Item>
                   <h2>write a customer review</h2>
                   {errorRating && <Message variant="danger">{errorRating}</Message>}
-                  {!userLoggedInfo ? (
+                  {!userLoginInfo ? (
                     <Message>please sign in to write a review </Message>
                   ) : (
                     <Form onSubmit={submitHandler}>
@@ -143,7 +153,10 @@ const ProductPage = ({ history, match }) => {
                           value={rating}
                           onChange={e => setRating(e.target.value)}
                         >
-                          <option value="">select</option>
+                          <option value="0" selected disabled hidden>
+                            Choose here
+                          </option>
+
                           <option value="1">1 - Poor</option>
                           <option value="2">2 - Fair</option>
                           <option value="3">3 - Good</option>

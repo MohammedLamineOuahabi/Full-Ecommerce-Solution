@@ -7,7 +7,7 @@ import { logout } from "../redux/actions/userActions";
 import SearchBox from "./SearchBox";
 const Header = () => {
   //get user info if possible
-  const { userLoggedInfo } = useSelector(state => state.userLogin);
+  const { userLoginInfo } = useSelector(state => state.userLoginState);
   //create a dispatch
   const dispatch = useDispatch();
   //handle logout
@@ -31,8 +31,8 @@ const Header = () => {
                   <i className="fas fa-shopping-cart"></i>Cart
                 </Nav.Link>
               </LinkContainer>
-              {userLoggedInfo ? (
-                <NavDropdown title={userLoggedInfo.username} id="username">
+              {userLoginInfo ? (
+                <NavDropdown title={userLoginInfo.username} id="username">
                   <LinkContainer to="/profile">
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>
@@ -52,7 +52,7 @@ const Header = () => {
                   </LinkContainer>
                 </>
               )}
-              {userLoggedInfo && userLoggedInfo.isAdmin && (
+              {userLoginInfo && userLoginInfo.isAdmin && (
                 <NavDropdown title="Admin Panel" id="admin">
                   <LinkContainer to="/admin/users">
                     <NavDropdown.Item>Users </NavDropdown.Item>

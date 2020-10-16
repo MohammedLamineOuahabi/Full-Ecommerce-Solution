@@ -18,7 +18,7 @@ const addToCart = (id, qty) => async (dispatch, getState) => {
 
   //save cart items to localStorage
   //we get them back in the initial state in store.js
-  localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+  localStorage.setItem("cartItems", JSON.stringify(getState().cartState.cartItems));
 };
 
 const removeFromCart = id => (dispatch, getState) => {
@@ -28,7 +28,7 @@ const removeFromCart = id => (dispatch, getState) => {
   });
 
   //overwrite the locale Storage
-  localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+  localStorage.setItem("cartItems", JSON.stringify(getState().cartState.cartItems));
 };
 
 const saveShippingAddress = data => dispatch => {
