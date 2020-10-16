@@ -4,6 +4,9 @@
   "description": "front end for the e-commerce platform",
   "main": "index.js",
   "type": "module",
+  "engines": {
+    "node": ">=12.19.0"
+  },
   "scripts": {
     "data:delete": "node backend/data/dataSeeder -d",
     "data:import": "node backend/data/dataSeeder",
@@ -11,7 +14,7 @@
     "server": "nodemon backend/server",
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install ---prefix frontend && npm run build --prefix frontend"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false nmp install ---prefix frontend && npm run build --prefix frontend"
   },
   "keywords": [],
   "author": "OUAHABI MOHAMMED LAMINE",
