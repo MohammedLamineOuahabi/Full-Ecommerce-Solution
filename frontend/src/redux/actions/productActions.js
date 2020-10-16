@@ -2,6 +2,7 @@ import Axios from "axios";
 import productActionTypes from "../constants/productActionTypes";
 
 const listProducts = (keyword = "", page = "") => async dispatch => {
+  console.log("in list product");
   try {
     dispatch({ type: productActionTypes.PRODUCT_LIST_REQUEST });
 

@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === "development") {
 //__dirname not supported by es module
 //const __dirname = path.resolve();
 const p = path.join(__dirname, "../uploads");
-//console.log(p);
+console.log(p);
 app.use("/uploads", express.static(p));
 
 // *******   ROUTES   ************************
@@ -42,7 +42,7 @@ app.get("/api/v1/config/paypal", (req, res) => {
 
 if (process.env.NODE_ENV === "production") {
   //set build folder as static folder
-  app.use(express.static("../frontend/build"));
+  app.use(express.static(path.join(__dirname, "../frontend/build")));
   //redirect all not api routes to index.html
   app.get("*", (req, res) => {
     const f = path.resolve(__dirname, "..", "frontend", "build", "index.html");
