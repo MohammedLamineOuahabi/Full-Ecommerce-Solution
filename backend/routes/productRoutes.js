@@ -15,5 +15,5 @@ router
   .put(protect, admin, productController.updateProduct)
   .delete(protect, admin, productController.deleteProduct);
 router.route("/:id/review").post(protect, productController.createReview);
-
+/////only buyers can review
 module.exports = router;
