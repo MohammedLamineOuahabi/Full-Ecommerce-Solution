@@ -1,5 +1,5 @@
-import asyncHandler from "express-async-handler";
-import Product from "../models/productModel.js";
+const asyncHandler = require("express-async-handler");
+const Product = require("../models/productModel");
 
 // @desc Fetch all products
 // @route /api/v1/products?keyword=
@@ -147,7 +147,6 @@ const createReview = asyncHandler(async (req, res) => {
 // @access public
 
 const getTopProducts = asyncHandler(async (req, res) => {
-  console.log("in getTopProducts");
   const products = await Product.find({}).sort({ rating: -1 }).limit(3); ///
 
   if (products) {
@@ -158,7 +157,7 @@ const getTopProducts = asyncHandler(async (req, res) => {
   }
 });
 
-export default {
+module.exports = {
   getProducts,
   getProductById,
   deleteProduct,

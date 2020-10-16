@@ -17,7 +17,7 @@ const ProductPage = ({ history, match }) => {
 
   const { loading, error, product } = useSelector(state => state.productDetailsState);
   const { userLoggedInfo } = useSelector(state => state.userLogin);
-  const { loading: loadingRating, error: errorRating, success: successRating } = useSelector(
+  const { error: errorRating, success: successRating } = useSelector(
     state => state.productReviewState
   );
   const productId = match.params.id;

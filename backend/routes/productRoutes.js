@@ -1,6 +1,6 @@
-import express from "express";
-import productController from "../controllers/productController.js";
-import { protect, admin } from "../middleware/authMiddleware.js";
+const express = require("express");
+const productController = require("../controllers/productController");
+const { protect, admin } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
@@ -16,4 +16,4 @@ router
   .delete(protect, admin, productController.deleteProduct);
 router.route("/:id/review").post(protect, productController.createReview);
 
-export default router;
+module.exports = router;

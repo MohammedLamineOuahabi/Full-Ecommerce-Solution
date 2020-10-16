@@ -1,6 +1,6 @@
-import express from "express";
-import multer from "multer";
-import path from "path";
+const express = require("express");
+const multer = require("multer");
+const path = require("path");
 ///import userController from "../controllers/userController.js";
 //import { protect, admin } from "../middleware/authMiddleware.js";
 
@@ -42,4 +42,4 @@ router.route("/").post(upload.single("image"), (req, res) => {
   res.send(`${req.file.path}`);
 });
 
-export default router;
+module.exports = router;

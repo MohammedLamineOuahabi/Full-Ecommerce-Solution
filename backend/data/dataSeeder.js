@@ -1,14 +1,14 @@
-import dotenv from "dotenv";
-import colors from "colors";
+const dotenv = require("dotenv");
+const colors = require("colors");
 
-import products from "./products.js";
-import users from "./users.js";
+const products = require("./products");
+const users = require("./users");
 
-import Product from "../models/productModel.js";
-import User from "../models/userModel.js";
-import Order from "../models/orderModel.js";
+const Product = require("../models/productModel");
+const User = require("../models/userModel");
+const Order = require("../models/orderModel");
 
-import connectDB from "../config/db.js";
+const connectDB = require("../config/db");
 dotenv.config();
 connectDB();
 

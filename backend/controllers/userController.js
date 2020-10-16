@@ -1,6 +1,6 @@
-import asyncHandler from "express-async-handler";
-import User from "../models/userModel.js";
-import generateToken from "../utils/generateToken.js";
+const asyncHandler = require("express-async-handler");
+const User = require("../models/userModel");
+const generateToken = require("../utils/generateToken");
 
 // @desc Auth user & get token
 // @route POST /api/v1/login
@@ -160,7 +160,7 @@ const updateUser = asyncHandler(async (req, res) => {
     throw Error("user not found");
   }
 });
-export default {
+module.exports = {
   authUser,
   getUserProfile,
   updateUserProfile,
