@@ -109,7 +109,12 @@ const OrderPage = ({ match }) => {
                     <ListGroup.Item key={index}>
                       <Row>
                         <Col md={1} xs={3}>
-                          <Image src={item.image} alt={item.name} fluid rounded></Image>
+                          <Image
+                            src={`/uploads/${item.image}`}
+                            alt={item.name}
+                            fluid
+                            rounded
+                          ></Image>
                         </Col>
                         <Col>
                           <Link to={`/products/${item._id}`}>{item.name}</Link>
