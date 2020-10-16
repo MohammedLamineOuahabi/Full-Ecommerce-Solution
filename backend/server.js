@@ -37,10 +37,12 @@ if (process.env.NODE_ENV === "development") {
   });
 } else if (process.env.NODE_ENV === "production") {
   //set build folder as static folder
-  app.use(express.static(path.join(__dirname, "/frontend/build")));
+  app.use(express.static(path.join(__dirname, "../frontend/build")));
   //redirect all not api routes to index.html
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
+    const f = path.resolve(__dirname, "..", "frontend", "build", "index.html");
+    console.log(f);
+    res.sendFile(f);
   });
 }
 
