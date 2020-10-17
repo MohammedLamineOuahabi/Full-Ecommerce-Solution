@@ -10,12 +10,22 @@ const userRoutes = require("./routes/userRoutes.js");
 const orderRoutes = require("./routes/orderRoutes.js");
 const uploadRoutes = require("./routes/uploadRoutes.js");
 
-if (process.env.NODE_ENV !== "production") require("dotenv").config();
+// ******* init express app *****************
 
 const app = express();
+
+// ******* load env vars for dev env  *******
+
+if (process.env.NODE_ENV !== "production") require("dotenv").config();
+
+// ******* Connect to db  *******************
+
 connectDB();
 
+// ******* static files *********************
+
 app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
+app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 // ******* MIDDLEWARE ************************
 
@@ -27,8 +37,6 @@ if (process.env.NODE_ENV === "development") {
   });
 }
 
-// ******* static files *********************
-
 // *******   ROUTES   ************************
 app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/users", userRoutes);
@@ -37,19 +45,18 @@ app.use("/api/v1/upload", uploadRoutes);
 app.get("/api/v1/config/paypal", (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID);
 });
-
-app.use(express.static(path.join(__dirname, "../frontend/build")));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/build"));
-});
-app.post("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/build"));
-});
-
+if (process.env.NODE_ENV === "production") {
+  app.use(/^\/(?!api).*/, (req, res) => {
+    res.sendFile(path.join(__dirname, "..", "frontend", "build", "index.html"));
+  });
+}
 // *******  Error Middleware *************
+
 app.use(notFound);
-app.use(errorHandler); // if error return json response to client
-// ******************************************
+app.use(errorHandler);
+// if error return json response to client
+
+// *********  listening  *****************
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
