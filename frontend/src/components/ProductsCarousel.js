@@ -23,11 +23,16 @@ const ProductsCarousel = () => {
       {products.map(product => (
         <Carousel.Item key={product._id}>
           <Link to={`/products/${product._id}`}>
-            <Image src={`/uploads/${product.image}`} alt={product.name} fluid></Image>
+            <Image
+              src={`/uploads/${product.image}`}
+              alt={product.name}
+              className="d-block m-auto h-50"
+            ></Image>
             <Carousel.Caption className="carousel-caption">
-              <h2>
-                {product.name} ({product.price})
-              </h2>
+              <h2 className="d-block m-auto w-75">{product.name}</h2>
+              <p className="d-block m-auto w-50">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              </p>
             </Carousel.Caption>
           </Link>
         </Carousel.Item>

@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Route } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { listProducts } from "../redux/actions/productActions.js";
@@ -38,7 +39,7 @@ const HomePage = ({ match }) => {
           <Row className="text-left py-3 ">
             {products.map(product => (
               <Col key={product._id} sm={12} md={6} lg={4}>
-                <Product product={product} />
+                <Route render={({ history }) => <Product history={history} product={product} />} />
               </Col>
             ))}
           </Row>

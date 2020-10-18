@@ -11,3 +11,7 @@ code {
 .carousel a {
   margin: 0 auto;
 }
+
+.carousel-caption p {
+  color: #343a40;
+}

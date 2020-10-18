@@ -134,7 +134,7 @@ const ProductPage = ({ history, match }) => {
                 {product.reviews.map(review => (
                   <ListGroup.Item key={review._id}>
                     <span>{review.name}</span>
-                    <Rating rating={review.rating} numReviews={review.numReviews}></Rating>
+                    <Rating rating={review.rating}></Rating>
                     <p>{review.createdAt.substring(0, 10)}</p>
                   </ListGroup.Item>
                 ))}

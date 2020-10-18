@@ -45,7 +45,7 @@ const CartPage = ({ match, location, history }) => {
                 <ListGroup.Item key={item.productId}>
                   <Row>
                     <Col md={2}>
-                      <Image src={item.image} alt={item.name} fluid rounded />
+                      <Image src={`/uploads/${item.image}`} alt={item.name} fluid rounded />
                     </Col>
                     <Col md={3}>
                       <Link to={`/product/${item.id}`}></Link>
