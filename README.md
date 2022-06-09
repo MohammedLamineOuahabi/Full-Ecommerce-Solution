@@ -1,8 +1,6 @@
 # project overview
 
-This project is an e-commerce solution
-back-end using nodejs with express library
-front-end using react js
+This project is an e-commerce solution.
 
 # Stack used
 - ReactJS.
